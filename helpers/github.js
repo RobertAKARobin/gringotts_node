@@ -21,7 +21,7 @@ module.exports = (function(){
   gh.page_from = function(header){
     var regexp = /(\&page=)([0-9])(>; rel=\")([a-z]+)/ig;
     var out = {};
-    header.replace(regexp, function(){
+    if(header) header.replace(regexp, function(){
       out[arguments[4]] = arguments[2];
     });
     return out;

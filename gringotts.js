@@ -3,19 +3,21 @@ var app = express();
 
 var http = require("request");
 var gh = require("./helpers/github");
+var path = require("path");
 
-app.use(express.static("public"));
-
-app.get("/", function(req, res){
-  res.render("index");
-});
+app.use(express.static(__dirname + "/public"));
 
 app.get("/:org.json", function(req, res){
   var org = req.params["org"];
   var repos = [];
   (function load_repos(page){
     http.get(gh.repos_for(org, page), function(err, response){
-      var pages = gh.page_from(response.headers.link);
+      var pages;
+      if(response.statusCode != 200){
+        return res.json({error: response.body});
+      }else{
+        pages = gh.page_from(response.headers.link);
+      }
       repos = repos.concat(JSON.parse(response.body));
       if(pages["next"]){
         console.log("Loading page " + pages["next"] + " of " + pages["last"] + "...");
@@ -23,6 +25,10 @@ app.get("/:org.json", function(req, res){
       }else res.json(repos.map(gh.condense_repo));
     });
   }());
+});
+
+app.get("*", function(req, res){
+  res.sendFile(path.join(__dirname, "./public/index.html"));
 });
 
 app.listen(3000, function(){

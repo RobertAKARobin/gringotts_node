@@ -1,0 +1,12 @@
+<h1>Show</h1>
+<div data-ng-switch data-on="showVM.state">
+  <div data-ng-switch-when="loading">
+    Loading...
+  </div>
+  <div data-ng-switch-when="error">
+    {{showVM.message}}
+  </div>
+  <div data-ng-switch-when="loaded" data-ng-repeat="repo in showVM.repos">
+    {{repo.name}}
+  </div>
+</div>
