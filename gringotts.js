@@ -22,7 +22,12 @@ app.get("/:org.json", function(req, res){
       if(pages["next"]){
         console.log("Loading page " + pages["next"] + " of " + pages["last"] + "...");
         load_repos(pages["next"]);
-      }else res.json(repos.map(gh.condense_repo));
+      }else res.json({
+        meta: {
+          "rate-limit-remaining": response.headers["x-ratelimit-remaining"]
+        },
+        data: repos.map(gh.condense_repo)
+      });
     });
   }());
 });

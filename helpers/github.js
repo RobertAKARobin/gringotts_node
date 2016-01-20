@@ -39,6 +39,7 @@ module.exports = (function(){
       id: repo.id,
       name: repo.name,
       url: repo.html_url,
+      website: repo.homepage,
       description: description.english,
       tags: description.tags,
       stars: repo.stargazers_count,
