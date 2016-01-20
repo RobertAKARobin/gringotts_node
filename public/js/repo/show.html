@@ -1,12 +1,8 @@
-<h1>Show</h1>
-<div data-ng-switch data-on="showVM.state">
-  <div data-ng-switch-when="loading">
-    Loading...
-  </div>
-  <div data-ng-switch-when="error">
-    {{showVM.message}}
-  </div>
-  <div data-ng-switch-when="loaded" data-ng-repeat="repo in showVM.repos">
-    {{repo.name}}
-  </div>
-</div>
+<h3><a href="{{repo.url}}" target="_blank">{{repo.name}}</a></h3>
+<p>Description: {{repo.description}}</p>
+<p>Website: {{repo.website}}</p>
+<p>Stars: {{repo.stars}}</p>
+<p>Watchers: {{repo.watchers}}</p>
+<ul data-ng-repeat="tag in repo.tags">
+  <li>{{tag}}</li>
+</ul>

@@ -12,13 +12,13 @@
   function ControllerFunction($http, $stateParams){
     var vm = this;
     vm.state = "loading";
-    $http.get("/" + $stateParams.org + ".json").then(function(){
+    vm.org = $stateParams.org;
+    vm.repos = [];
+    vm.url = "https://github.com/" + vm.org;
+    $http.get("/" + vm.org + ".json").then(function(){
       var response = arguments[0].data;
-      if(response.error){
-        vm.state = "error";
-        return vm.message = JSON.parse(response.error).message;
-      }
-      vm.repos = response;
+      if(response.error) return vm.state = "error";
+      vm.repos = response.data;
       vm.state = "loaded";
     });
   }

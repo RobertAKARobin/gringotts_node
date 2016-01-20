@@ -15,15 +15,15 @@
   function RouterFunction($stateProvider, $locationProvider){
     $locationProvider.html5Mode(true);
     $stateProvider
-    .state("index", {
+    .state("main", {
       url: "/",
       templateUrl: "./js/repo/main.html",
       controller: "mainController",
       controllerAs: "mainVM"
     })
-    .state("show", {
+    .state("index", {
       url: "/:org",
-      templateUrl: "./js/repo/show.html",
+      templateUrl: "./js/repo/index.html",
       controller: "showController",
       controllerAs: "showVM"
     });
