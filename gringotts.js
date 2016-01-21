@@ -10,6 +10,9 @@ app.use(express.static(__dirname + "/public"));
 app.get("/:org.json", function(req, res){
   var org = req.params["org"];
   var repos = [];
+  // Detect if file exists
+  // Detect if changed
+
   (function load_repos(page){
     http.get(gh.repos_for(org, page), function(err, response){
       var pages;
@@ -19,15 +22,18 @@ app.get("/:org.json", function(req, res){
         pages = gh.page_from(response.headers.link);
       }
       repos = repos.concat(JSON.parse(response.body));
+      console.log(response.headers.etag)
       if(pages["next"]){
         console.log("Loading page " + pages["next"] + " of " + pages["last"] + "...");
         load_repos(pages["next"]);
-      }else res.json({
-        meta: {
-          "rate-limit-remaining": response.headers["x-ratelimit-remaining"]
-        },
-        data: repos.map(gh.condense_repo)
-      });
+      }else{
+        res.json({
+          meta: {
+            "rate-limit-remaining": response.headers["x-ratelimit-remaining"]
+          },
+          data: repos.map(gh.condense_repo)
+        });
+      }
     });
   }());
 });
