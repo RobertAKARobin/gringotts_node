@@ -1,15 +1,15 @@
-<h2 data-ng-switch data-on="showVM.state" data-ng-class="showVM.state">
-  <span data-ng-switch-when="loading">
+<div data-ng-switch data-on="showVM.state" data-ng-class="showVM.state">
+  <h2 data-ng-switch-when="loading">
     Loading repos...
-  </span>
-  <span data-ng-switch-when="error">
+  </h2>
+  <h2 data-ng-switch-when="error">
     I couldn't load the repos for <a href="{{showVM.url}}" target="_blank">{{showVM.org}}</a>! Did you spell it correctly?
-  </span>
-  <span data-ng-switch-when="loaded">
-    Repos for <a href="{{showVM.url}}" target="_blank">{{showVM.org}}</a>:
-  </span>
+  </h2>
+  <div data-ng-switch-when="loaded">
+    <h2>Repos for <a href="{{showVM.url}}" target="_blank">{{showVM.org}}</a>:</h2>
+    <ul data-tag-list data-show-clear data-tags="showVM.tags"></ul>
+    <ol>
+      <li data-repo data-ng-repeat="repo in showVM.repos | filter:showVM.filterer | orderBy:'+name'"></li>
+    </ol>
+  </div>
 </h2>
-
-<ul data-ng-repeat="repo in showVM.repos">
-  <li data-repo></li>
-</ul>

@@ -3,6 +3,4 @@
 <p>Website: {{repo.website}}</p>
 <p>Stars: {{repo.stars}}</p>
 <p>Watchers: {{repo.watchers}}</p>
-<ul data-ng-repeat="tag in repo.tags">
-  <li>{{tag}}</li>
-</ul>
+<ul data-tag-list data-tags="repo.tags"></ul>

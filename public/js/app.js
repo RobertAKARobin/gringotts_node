@@ -25,7 +25,8 @@
       url: "/:org",
       templateUrl: "./js/repo/index.html",
       controller: "showController",
-      controllerAs: "showVM"
+      controllerAs: "showVM",
+      reloadOnSearch: false
     });
   }
 }());

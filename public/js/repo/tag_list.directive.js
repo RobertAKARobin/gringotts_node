@@ -3,18 +3,19 @@
 (function (){
   angular
   .module("repos")
-  .directive("repo", [
+  .directive("tagList", [
     DirectiveFunction
   ]);
 
   function DirectiveFunction(){
     return{
-      templateUrl: "./js/repo/show.html",
+      templateUrl: "./js/repo/tag_list.html",
+      scope: {
+        tags: "=",
+        showClear: "@"
+      },
       link: function(scope){
         scope.ctrl = scope.$parent.showVM;
-        if(scope.repo.tags) scope.repo.tags.forEach(function(tag){
-          if(!scope.ctrl.tags.includes(tag)) scope.ctrl.tags.push(tag);
-        });
       }
     }
   }

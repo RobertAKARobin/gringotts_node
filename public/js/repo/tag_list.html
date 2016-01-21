@@ -1,0 +1,6 @@
+<ul class="tags">
+  <li data-ng-if="showClear !== undefined" data-ng-click="ctrl.filter_on(null)">clear</li>
+  <li data-ng-repeat="tag in tags | orderBy" data-ng-click="ctrl.filter_on(tag)">
+    {{tag}}
+  </li>
+</ul>
