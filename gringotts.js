@@ -1,41 +1,26 @@
 var express = require("express");
 var app = express();
 
-var http = require("request");
-var gh = require("./helpers/github");
+var request = require("request");
 var path = require("path");
+var env = require("./env.json");
+
+var gh = require("./helpers/github.js");
+
+var cookies = require("cookie-parser");
+var cookieDefault = {
+  signed: false,
+  expires: new Date("Jan 1 2100")
+}
 
 app.use(express.static(__dirname + "/public"));
+app.use(cookies(env.secret));
+app.set("port", process.env.PORT || 3000);
 
-app.get("/:org.json", function(req, res){
-  var org = req.params["org"];
-  var repos = [];
-  (function load_repos(page){
-    http.get(gh.repos_for(org, page), function(err, response){
-      var pages;
-      if(response.statusCode != 200){
-        return res.json({error: response.body});
-      }else{
-        pages = gh.page_from(response.headers.link);
-      }
-      repos = repos.concat(JSON.parse(response.body));
-      if(pages["next"]){
-        console.log("Loading page " + pages["next"] + " of " + pages["last"] + "...");
-        load_repos(pages["next"]);
-      }else res.json({
-        meta: {
-          "rate-limit-remaining": response.headers["x-ratelimit-remaining"]
-        },
-        data: repos.map(gh.condense_repo)
-      });
-    });
-  }());
+app.get("/*", function(req, res){
+  res.sendFile(path.join(__dirname, "/views/index.html"));
 });
 
-app.get("/:org?", function(req, res){
-  res.sendFile(path.join(__dirname, "./public/index.html"));
-});
-
-app.listen(3000, function(){
-  console.log("Listening on 3000.");
+app.listen(app.get("port"), function(){
+  console.log("It's aliiiive on " + app.get("port") + "!");
 });

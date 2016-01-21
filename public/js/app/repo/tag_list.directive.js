@@ -9,7 +9,7 @@
 
   function DirectiveFunction(){
     return{
-      templateUrl: "./js/repo/tag_list.html",
+      templateUrl: "./js/app/repo/tag_list.html",
       replace: true,
       scope: {
         tags: "="

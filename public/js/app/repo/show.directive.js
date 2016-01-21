@@ -9,7 +9,7 @@
 
   function DirectiveFunction(){
     return{
-      templateUrl: "./js/repo/show.html",
+      templateUrl: "./js/app/repo/show.html",
       link: function(scope){
         scope.ctrl = scope.$parent.showVM;
         if(scope.repo.tags) scope.repo.tags.forEach(function(tag){

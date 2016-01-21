@@ -17,13 +17,13 @@
     $stateProvider
     .state("main", {
       url: "/",
-      templateUrl: "./js/repo/main.html",
+      templateUrl: "./js/app/repo/main.html",
       controller: "mainController",
       controllerAs: "mainVM"
     })
     .state("index", {
       url: "/:org",
-      templateUrl: "./js/repo/index.html",
+      templateUrl: "./js/app/repo/index.html",
       controller: "showController",
       controllerAs: "showVM",
       reloadOnSearch: false
