@@ -1,6 +1,14 @@
-<h3><a href="{{repo.url}}" target="_blank">{{repo.name}}</a></h3>
-<p>Description: {{repo.description}}</p>
-<p>Website: {{repo.website}}</p>
-<p>Stars: {{repo.stars}}</p>
-<p>Watchers: {{repo.watchers}}</p>
+<h3 title="Name"><a href="{{repo.url}}" target="_blank">{{repo.name}}</a></h3>
+<p title="Description">{{repo.description}}</p>
+<p title="Homepage"><a href="{{repo.website}}">{{repo.website}}</a></p>
+<p title="Stars">
+  <span data-ng-if="repo.stars">
+    <span class="desc">Stars: </span><span>{{repo.stars}}</span>
+  </span>
+</p>
+<p title="Watchers">
+  <span data-ng-if="repo.watchers">
+    <span class="desc">Watchers: </span><span>{{repo.watchers}}</span>
+  </span>
+</p>
 <ul data-tag-list data-tags="repo.tags"></ul>

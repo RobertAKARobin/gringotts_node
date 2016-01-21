@@ -10,9 +10,9 @@
   function DirectiveFunction(){
     return{
       templateUrl: "./js/repo/tag_list.html",
+      replace: true,
       scope: {
-        tags: "=",
-        showClear: "@"
+        tags: "="
       },
       link: function(scope){
         scope.ctrl = scope.$parent.showVM;
