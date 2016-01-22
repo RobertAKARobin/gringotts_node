@@ -2,10 +2,38 @@
 <html>
   <head>
     <title>Gringotts</title>
-    <base href="/" />
     <link rel="stylesheet" href="style.css" />
+    <script src="script.js"></script>
   </head>
   <body>
+
+    <header>
+      <h1>Gringotts</h1>
+      <div>
+        <input type="text" id="orgNameInput" placeholder="Org/user name" />
+        <button type="button" onclick="app.loadRepos('orgNameInput')">Load Repos</button>
+      </div>
+    </header>
+
+    <nav>
+      <ul class="tags">
+        <li data-repeat="allTags">
+          <a onclick="app.filter()" data-datum="name"></a>
+          (<span data-datum="count"></span>)
+        </li>
+      </ul>
+    </nav>
+
+    <main>
+      <ul>
+        <li data-repeat="repos">
+          <h3 data-datum="name"></h3>
+          <ul data-repeat="tags">
+            <li data-datum="name"></li>
+          </ul>
+        </li>
+      </ul>
+    </main>
 
   </body>
 </html>
