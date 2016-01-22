@@ -6,6 +6,7 @@ var h = (function helpers(){
     jsonp: jsonp
   }
   function jsonp(url){
+    console.log(url);
     if(jsonp.element) document.head.removeChild(jsonp.element);
     jsonp.element = document.createElement("SCRIPT");
     jsonp.element.src = url;
@@ -26,6 +27,7 @@ var app = (function gringotts(){
     tags: [],
     rateLimit: 0,
     repeats: {},
+    token: Cookies.get("gh_token"),
     loadRepos, loadRepos,
     getAPIresponse: getAPIresponse
   }
@@ -33,26 +35,27 @@ var app = (function gringotts(){
   function loadRepos(orgNameInput){
     var orgName = document.getElementById(orgNameInput).value;
     app.repos = [];
-    h.jsonp(baseURL + "orgs/" + orgName + "/repos?per_page=100&callback=app.getAPIresponse");
+    h.jsonp(baseURL + "orgs/" + orgName + "/repos?" + [
+      "per_page=100",
+      "callback=app.getAPIresponse",
+      "access_token=" + app.token
+    ].join("&"));
   }
 
   function parseRepos(response){
+    var shouldLoadNextPage = false;
     app.repos = app.repos.concat(response.data);
     h.forEach(response.meta.Link, function(link){
-      if(link[1].rel === "next" ){
+      if(link[1].rel === "next"){
         shouldLoadNextPage = true;
-        console.log(link[0]);
         h.jsonp(link[0]);
         return "break";
       }
     });
-    if(!shouldLoadNextPage){
-      console.dir(app.repos)
-    }
+    if(!shouldLoadNextPage) console.dir(app.repos)
   }
 
   function getAPIresponse(response){
-    var shouldLoadNextPage = false;
     app.rateLimit = response.meta["X-RateLimit-Remaining"];
     if(app.rateLimit < 1) console.log("No more requests allowed.");
     else parseRepos(response);
@@ -60,12 +63,15 @@ var app = (function gringotts(){
 }());
 
 window.onload = function(){
-  app.repeats = (function loadDirectives(attrName){
-    var out = {};
+
+  eachDirective("data-if", function(element, condition){
+    if(!eval(condition)) element.parentNode.removeChild(element);
+  });
+
+  function eachDirective(attrName, callback){
     var elements = document.querySelectorAll("[" + attrName + "]");
     h.forEach(elements, function(element){
-      out[element.getAttribute(attrName)] = element.cloneNode();
+      callback(element, element.getAttribute(attrName));
     });
-    return out;
-  }("data-repeat"));
+  }
 }

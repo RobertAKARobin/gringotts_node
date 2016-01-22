@@ -3,15 +3,19 @@
   <head>
     <title>Gringotts</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="js-cookie.min.js"></script>
     <script src="script.js"></script>
   </head>
   <body>
 
     <header>
       <h1>Gringotts</h1>
-      <div>
+      <div data-if="app.token">
         <input type="text" id="orgNameInput" placeholder="Org/user name" />
         <button type="button" onclick="app.loadRepos('orgNameInput')">Load Repos</button>
+      </div>
+      <div data-if="!app.token">
+        <a href="/login">Login</a>
       </div>
     </header>
 
